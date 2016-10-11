@@ -1,11 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+from .models import Books, Authors, Publishers
+
 # Create your views here.
 
 
+#For the moment, this just lists books.  Need to add authors.
 def index(request):
-    return HttpResponse("Sortable/searchable listing of all books with authors/pubs.")
+    book_list = Books.objects.order_by('book_id')[:]
+    context = {'book_list': book_list}
+    return render(request, 'books/index.html', context)
 
 def addbook(request):
     return HttpResponse("Add a book")
