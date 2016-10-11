@@ -47,12 +47,12 @@ class Publishers(models.Model):
         managed = False
         db_table = 'publishers'
 
-
 class Wrote(models.Model):
-    author = models.IntegerField()
-    book = models.IntegerField()
+    author = models.ForeignKey(Authors, models.DO_NOTHING, db_column='author')
+    book = models.ForeignKey(Books, models.DO_NOTHING, db_column='book')
 
     class Meta:
         managed = False
         db_table = 'wrote'
         unique_together = (('author', 'book'),)
+
