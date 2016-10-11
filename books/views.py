@@ -13,25 +13,25 @@ def addbook(request):
 def modifybook(request):
     return HttpResponse("Modify a book")
 
-def deletebook(request)
+def deletebook(request):
     return HttpResponse("Delete a book")
 
-def addauthor(request)
+def addauthor(request):
     return HttpResponse("Add an author")
 
-def modifyauthor(request)
+def modifyauthor(request):
     return HttpResponse("Modify an author")
 
-def deleteauthor(request)
+def deleteauthor(request):
     return HttpResponse("Delete an author")
 
-def addpub(request)
+def addpub(request):
     return HttpResponse("Add an publisher")
 
-def modifypub(request)
+def modifypub(request):
     return HttpResponse("Modify an publisher")
 
-def deletepub(request)
+def deletepub(request):
     return HttpResponse("Delete an publisher")
 
 
