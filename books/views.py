@@ -32,6 +32,9 @@ def modifyauthor(request):
 def deleteauthor(request):
     return HttpResponse("Delete an author")
 
+def pubshell(request):
+    return render(request, 'books/pubshell.html')
+
 def publishers(request, orderby='pub_id'):
     if orderby=='pub_id': 
         idsort='-pub_id'

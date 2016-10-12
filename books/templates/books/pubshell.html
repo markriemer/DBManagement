@@ -1,0 +1,63 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+  var updateError=function(error, status){
+     $('#message').html(error.responseText);
+  }
+
+  var deletePublisher = function(id){
+     $.get("/books/publishers/deletepub/"+id, "", function(message) {
+          $('#message').html(message);
+          $('#row'+id).remove();
+     }).fail(updateError);      
+
+  }
+  var updatePublisher = function(id){
+     $.get("/books/publishers/updatepub/"+id+"?newtext="+$('#name'+id).val(), "", function(message) {
+          $('#message').html(message);
+     }).fail(updateError);      
+
+  }
+  var addPublisher = function(){
+     $.get("/books/publishers/addpub"+"?newtext="+$('#newname').val(), "", function(message) {
+          $('#newrow').before('<tr id=\"row' + message + '\">'
+              + '<td>' + message + '</td>'
+              + '<td><input type=\"text\" id=\"name'+ message + '\" value=\"' + $('#newname').val() + '\" /></td>' 
+              + '<td><button type=\"button\" id=\"' + message +'\" onclick=\"deletePublisher(' + message + ')\">Delete</button></td>'
+              + '</tr>');
+          $('#newname').val("");
+     }).fail(updateError);      
+  }
+
+  var executeSearch = function(){
+     $.get("/books/publishers?search="+$('#searchtext').val(), function(message) {
+          $('#results_table').html(message);
+     }).fail(updateError);      
+  }
+
+  var sortTable = function(orderby){
+     $.get("/books/publishers/orderby/"+orderby+"?search="+$('#searchtext').val(), function(message) {
+          $('#results_table').html(message);
+       
+     }).fail(updateError);      
+  }
+
+  $(document).ready(function(){
+     $('#results_table').html("loading");
+     $.get("/books/publishers?search="+$('#searchtext').val(), function(message) {
+          $('#results_table').html(message);
+     }).fail(updateError);      
+  });
+
+
+</script>
+</head>
+
+<form method="get">
+    <input type="text" id="searchtext" /> <button type="button" id="btnSearch" onclick="executeSearch()">Search</button>
+</form>
+
+<div id="results_table"></div>
+<div id="message"></div>
+
