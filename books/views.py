@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.db import models 
 from django.shortcuts import render
 from django.http import HttpResponse
 
@@ -45,8 +46,11 @@ def publishers(request, orderby='pub_id'):
         idsort='pub_id'
         namesort='name'
 
-    pub_list = Publishers.objects.order_by(orderby)[:]
-    context = {'pub_list': pub_list,'idsort':idsort,'namesort':namesort}
+    search = request.GET.get("search")
+    if search is None:
+        search=""
+    pub_list = Publishers.objects.filter(name__contains=search).order_by(orderby)[:]
+    context = {'pub_list': pub_list,'idsort':idsort,'namesort':namesort,'orderby':orderby}
     return render(request, 'books/publishers.html', context)
 
 def addpub(request):

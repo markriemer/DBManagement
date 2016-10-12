@@ -29,9 +29,20 @@
           $('#newname').val("");
      }).fail(updateError);      
   }
+
+  var executeSearch = function(){
+     $.get("/books/publishers?search="+$('#searchtext').val(), function(message) {
+          $('#message').html(message);
+     }).fail(updateError);      
+  }
+
+
 </script>
 </head>
 
+<form method="post">
+    <input type="text" id="searchtext" /> <button type="button" id="btnSearch" onclick="executeSearch()">Search</button>
+</form>
 {% if pub_list %}
 <form method="post">
 {% csrf_token %}
@@ -62,5 +73,4 @@
 
 <div id="message"></div>
 
-{{orderby}}
 
