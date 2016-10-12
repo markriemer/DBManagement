@@ -1,0 +1,13 @@
+{% if book_list %}
+<table border="1" style="border-collapse:collapse">
+    {% for book in book_list %}
+       <tr>
+         <td>{{ book.title }}</td>
+         <td>{{ book.publisher.name }}</td>
+       </tr>
+    {% endfor %}
+</table>
+{% else %}
+    <p>No books are available.</p>
+{% endif %}
+

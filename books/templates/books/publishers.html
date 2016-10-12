@@ -1,0 +1,50 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+  var updateError=function(error, status){
+     $('#message').html(error.responseText);
+  }
+
+  var deletePublisher = function(id){
+     $.get("/books/publishers/deletepub/"+id, "", function(message) {
+          $('#message').html(message);
+          $('#row'+id).remove();
+     }).fail(updateError);      
+
+  }
+  var updatePublisher = function(id){
+     $.get("/books/publishers/updatepub/"+id+"?newtext="+$('#name'+id).val(), "", function(message) {
+          $('#message').html(message);
+     }).fail(updateError);      
+  }
+</script>
+</head>
+
+{% if pub_list %}
+<form method="post">
+{% csrf_token %}
+
+    <table border="1" style="border-collapse:collapse">
+        <tr>
+          <td><a href="/books/publishers/orderby/{{idsort}}">ID</a></td>
+          <td><a href="/books/publishers/orderby/{{namesort}}">Publisher Name</a></td>
+          <td></td>
+        </tr>
+        {% for pub in pub_list %}
+           <tr id="row{{pub.pub_id}}">
+             <td>{{ pub.pub_id }}</td>
+             <td><input type="text" id="name{{pub.pub_id}}" value="{{ pub.name }}" onchange="updatePublisher({{pub.pub_id}})" /></td>
+             <td><button type="button" id="btnDelete" name="btnDelete"  onclick="deletePublisher({{pub.pub_id}})">Delete</button></td>
+           </tr>
+        {% endfor %}
+    </table>
+</form>
+{% else %}
+    <p>No publishers are available.</p>
+{% endif %}
+
+<div id="message"></div>
+
+{{orderby}}
+
