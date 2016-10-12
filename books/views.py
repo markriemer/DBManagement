@@ -50,14 +50,17 @@ def publishers(request, orderby='pub_id'):
     return render(request, 'books/publishers.html', context)
 
 def addpub(request):
-    return HttpResponse("Add an publisher")
+    newtext = request.GET.get("newtext")
+    pub=Publishers(name=newtext)
+    pub.save()
+    return HttpResponse(str(pub.pub_id))
 
 def updatepub(request,pub_id):
     pub = Publishers.objects.get(pub_id=pub_id)
     newtext = request.GET.get("newtext")
     pub.name = newtext
     pub.save()
-    return HttpResponse("Modify an publisher" +newtext)
+    return HttpResponse("Publisher name chaged to " +newtext)
 
 def deletepub(request, pub_id):
     pub = Publishers.objects.get(pub_id=pub_id)

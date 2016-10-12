@@ -17,6 +17,17 @@
      $.get("/books/publishers/updatepub/"+id+"?newtext="+$('#name'+id).val(), "", function(message) {
           $('#message').html(message);
      }).fail(updateError);      
+
+  }
+  var addPublisher = function(){
+     $.get("/books/publishers/addpub"+"?newtext="+$('#newname').val(), "", function(message) {
+          $('#newrow').before('<tr id=\"row' + message + '\">'
+              + '<td>' + message + '</td>'
+              + '<td><input type=\"text\" id=\"name'+ message + '\" value=\"' + $('#newname').val() + '\" /></td>' 
+              + '<td><button type=\"button\" id=\"' + message +'\" onclick=\"deletePublisher(' + message + ')\">Delete</button></td>'
+              + '</tr>');
+          $('#newname').val("");
+     }).fail(updateError);      
   }
 </script>
 </head>
@@ -25,7 +36,7 @@
 <form method="post">
 {% csrf_token %}
 
-    <table border="1" style="border-collapse:collapse">
+    <table id="pubtable" border="1" style="border-collapse:collapse">
         <tr>
           <td><a href="/books/publishers/orderby/{{idsort}}">ID</a></td>
           <td><a href="/books/publishers/orderby/{{namesort}}">Publisher Name</a></td>
@@ -38,6 +49,11 @@
              <td><button type="button" id="btnDelete" name="btnDelete"  onclick="deletePublisher({{pub.pub_id}})">Delete</button></td>
            </tr>
         {% endfor %}
+           <tr id="newrow">
+             <td>Add:</td>
+             <td><input type="text" id="newname" /></td>
+             <td><button type="button" id="btnAdd" name="btnAdd"  onclick="addPublisher()">Add</button></td>
+           </tr>
     </table>
 </form>
 {% else %}
