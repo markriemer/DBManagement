@@ -11,3 +11,11 @@
     <p>No books are available.</p>
 {% endif %}
 
+<table border="1" style="border-collapse:collapse">
+    {% for entry in wrote_list %}
+       <tr>
+         <td>{{ entry.book }}</td>
+         <td>{{ entry.author }}</td>
+       </tr>
+    {% endfor %}
+</table>

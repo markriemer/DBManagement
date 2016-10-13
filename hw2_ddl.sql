@@ -19,10 +19,11 @@ create table books(
 );
 
 create table wrote(
-	author int,
-    book int,
-    primary key (author,book),
-    foreign key(author) references authors(auth_id),
-    foreign key(book) references books(book_id)
+        id int primary key auto_increment,
+	author int not null,
+        book int not null,
+        unique (author,book),
+        foreign key(author) references authors(auth_id),
+        foreign key(book) references books(book_id)
 
 );
