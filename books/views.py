@@ -42,8 +42,9 @@ def updatebook(request, book_id):
 def modifybook(request, book_id):
     title = request.GET.get("title")
     pub = request.GET.get("pub")
-    if book_id == -1:
-         book = Books(title=title, publisher=pub)
+    if int(book_id)==-1:
+         publisher = Publishers.objects.get(pub_id=pub)
+         book = Books(title=title, publisher=publisher)
     else:
          book = Books.objects.get(book_id=book_id)
          book.title = title

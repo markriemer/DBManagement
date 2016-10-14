@@ -9,15 +9,15 @@
  }
 
  var link = function(id,authname){
-     $.get("/books/book/link?auth=" + id + "&book={{book.book_id}}", "", function(message){
+     $.get("/books/book/link?auth=" + id + "&book="+$('#book_id').html(), "", function(message){
 
        $('#authorsdiv').append("<span id=\"wrote" + message + "\">" + authname + " <a href=\"javascript:void(0)\" onclick=\"unlink("+message+")\">remove</a><br></span>");
      });
  }
 
  var updateBook = function(){
-     $.get("/books/book/modify/{{book.book_id}}"+"?title="+$('#title').val()+"&pub="+$('#publisher').val(), "", function(message) {
-          $('#message').html(message);
+     $.get("/books/book/modify/" + $('#book_id').html() +"?title="+$('#title').val()+"&pub="+$('#publisher').val(), "", function(message) {
+          $('#book_id').html(message);
      });
  }
   
@@ -28,6 +28,10 @@
        <th></th>
        <th></th>
     </tr>
+       <tr>
+            <td>Book ID</td>
+            <td><span id="book_id">{{book.book_id}}</td>
+       </tr>
        <tr>
             <td>Title</td>
             <td><input type="text" id="title" value="{{book.title}}" onchange="updateBook()" /></td>

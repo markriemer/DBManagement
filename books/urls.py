@@ -19,6 +19,7 @@ urlpatterns = [
     url(r'^authors/updateauth/(?P<auth_id>[0-9]+)$', views.updateauth, name='updateauth'),
     url(r'^book/(?P<book_id>[0-9]+)$', views.updatebook, name='updatebook'),
     url(r'^book/modify/(?P<book_id>[0-9]+)$', views.modifybook, name='modifybook'),
+    url(r'^book/modify/(?P<book_id>-1)$', views.modifybook, name='modifybook'),
     url(r'^book/unlink/(?P<wrote_id>[0-9]+)$', views.unlink, name='unlink'),
     url(r'^book/link$', views.link, name='link'),
     url(r'^book/deletebook/(?P<book_id>[0-9]+)$', views.deletebook, name='deletebook'),
