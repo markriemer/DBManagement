@@ -1,21 +1,46 @@
-{% if book_list %}
-<table border="1" style="border-collapse:collapse">
-    {% for book in book_list %}
-       <tr>
-         <td>{{ book.title }}</td>
-         <td>{{ book.publisher.name }}</td>
-       </tr>
-    {% endfor %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+  var deleteBook = function(id){
+     $.get("/books/book/deletebook/"+id, "", function(message) {
+          $('#message').html(message);
+          $('#row'+id).remove();
+     }).fail(updateError);
+  }
+</script>
+
+
+
+
+
+
+<table>
+  <tr>
+    <td><a href="/books/auth">Add/Edit Authors</a></td>
+    <td><a href="/books/pub">Add/Edit Publishers</a></td>
+  </tr>
 </table>
-{% else %}
-    <p>No books are available.</p>
-{% endif %}
 
 <table border="1" style="border-collapse:collapse">
+    <tr>
+       <th>Book</th>
+       <th>Publisher</th>
+       <th>Author</th>
+       <th></th>
+    </tr>
     {% for entry in wrote_list %}
        <tr>
-         <td>{{ entry.book }}</td>
-         <td>{{ entry.author }}</td>
+         {% if entry.id == -1 %}
+            <td style="border-top-style:none; border-bottom-style:none"></td>
+            <td style="border-top-style:none; border-bottom-style:none"></td>
+           <td>{{ entry.author.name }}</td>
+            <td style="border-top-style:none; border-bottom-style:none"></td>
+         {% else %}
+           <td style="border-top-style:solid; border-bottom-style:none"><a href="/books/book/{{entry.book.book_id}}">{{ entry.book.title }}</a></td>
+           <td style="border-top-style:solid; border-bottom-style:none">{{ entry.book.publisher.name }}</td>
+           <td>{{ entry.author.name }}</td>
+           <td style="border-top-style:solid; border-bottom-style:none"><button type="button" onclick=deleteBook({{entry.book.book_id}})>Delete</button> </td>
+         {% endif %}
        </tr>
     {% endfor %}
 </table>

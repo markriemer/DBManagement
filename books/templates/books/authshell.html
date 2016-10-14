@@ -1,0 +1,63 @@
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+  var updateError=function(error, status){
+     $('#message').html(error.responseText);
+  }
+
+  var deleteAuthor = function(id){
+     $.get("/books/authors/deleteauth/"+id, "", function(message) {
+          $('#message').html(message);
+          $('#row'+id).remove();
+     }).fail(updateError);      
+
+  }
+  var updateAuthor = function(id){
+     $.get("/books/authors/updateauth/"+id+"?newtext="+$('#name'+id).val(), "", function(message) {
+          $('#message').html(message);
+     }).fail(updateError);      
+
+  }
+  var addAuthor = function(){
+     $.get("/books/authors/addauth"+"?newtext="+$('#newname').val(), "", function(message) {
+          $('#newrow').before('<tr id=\"row' + message + '\">'
+              + '<td>' + message + '</td>'
+              + '<td><input type=\"text\" id=\"name'+ message + '\" value=\"' + $('#newname').val() + '\" /></td>' 
+              + '<td><button type=\"button\" id=\"' + message +'\" onclick=\"deleteAuthor(' + message + ')\">Delete</button></td>'
+              + '</tr>');
+          $('#newname').val("");
+     }).fail(updateError);      
+  }
+
+  var executeSearch = function(){
+     $.get("/books/authors?search="+$('#searchtext').val(), function(message) {
+          $('#results_table').html(message);
+     }).fail(updateError);      
+  }
+
+  var sortTable = function(orderby){
+     $.get("/books/authors/orderby/"+orderby+"?search="+$('#searchtext').val(), function(message) {
+          $('#results_table').html(message);
+       
+     }).fail(updateError);      
+  }
+
+  $(document).ready(function(){
+     $('#results_table').html("loading");
+     $.get("/books/authors?search="+$('#searchtext').val(), function(message) {
+          $('#results_table').html(message);
+     }).fail(updateError);      
+  });
+
+
+</script>
+</head>
+
+<form method="get">
+    <input type="text" id="searchtext" onchange="executeSearch()"/> <button type="button" id="btnSearch" onclick="executeSearch()">Search</button>
+</form>
+
+<div id="results_table"></div>
+<div id="message"></div>
+
