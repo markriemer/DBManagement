@@ -4,11 +4,30 @@
   var deleteBook = function(id){
      $.get("/books/book/deletebook/"+id, "", function(message) {
           $('#message').html(message);
-          $('#row'+id).remove();
-     }).fail(updateError);
+          $('.row'+id).remove();
+     }).fail();
   }
-</script>
 
+  var sortTable = function(orderby){
+     $.get("/books/index/orderby/"+orderby+"?search="+$('#searchtext').val() , function(message) {
+          $('#booklist').html(message);
+     }).fail();
+  }
+
+  var executeSearch = function(){
+     $.get("/books/index/orderby/title?search="+$('#searchtext').val(), function(message) {
+          $('#booklist').html(message);
+     }).fail();      
+  }
+
+  $(document).ready(function(){
+     $('#booklist').html("loading");
+     $.get("/books/index/orderby/title", function(message) {
+          $('#booklist').html(message);
+     }).fail();
+  });
+
+</script>
 
 <table>
   <tr>
@@ -18,26 +37,7 @@
   </tr>
 </table>
 
-<table border="1" style="border-collapse:collapse">
-    <tr>
-       <th>Book</th>
-       <th>Publisher</th>
-       <th>Author</th>
-       <th></th>
-    </tr>
-    {% for entry in wrote_list %}
-       <tr>
-         {% if entry.id == -1 %}
-            <td style="border-top-style:none; border-bottom-style:none"></td>
-            <td style="border-top-style:none; border-bottom-style:none"></td>
-           <td>{{ entry.author.name }}</td>
-            <td style="border-top-style:none; border-bottom-style:none"></td>
-         {% else %}
-           <td style="border-top-style:solid; border-bottom-style:none"><a href="/books/book/{{entry.book.book_id}}">{{ entry.book.title }}</a></td>
-           <td style="border-top-style:solid; border-bottom-style:none">{{ entry.book.publisher.name }}</td>
-           <td>{{ entry.author.name }}</td>
-           <td style="border-top-style:solid; border-bottom-style:none"><button type="button" onclick=deleteBook({{entry.book.book_id}})>Delete</button> </td>
-         {% endif %}
-       </tr>
-    {% endfor %}
-</table>
+
+<input type="text" id="searchtext" onchange="executeSearch()"/> <button type="button" id="btnSearch" onclick="executeSearch()">Search</button>
+<div id="booklist"></div>
+<div id="message"></div>

@@ -5,6 +5,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(r'^index/orderby/(?P<orderby>-?title|-?pub)$', views.booklist, name='booklist'),
     url(r'^pub/$', views.pubshell, name='pubshell'),
     url(r'^publishers/$', views.publishers, name='publishers'),
     url(r'^publishers/addpub$', views.addpub, name='addpublishers'),
