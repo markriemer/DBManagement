@@ -1,0 +1,25 @@
+
+
+<table border="1" style="border-collapse:collapse">
+    <tr>
+       <th><a href="javascript:void(0)" onclick="sortTable('{{titlesort}}')">Book</a></th>
+       <th><a href="javascript:void(0)" onclick="sortTable('{{pubsort}}')">Publisher</a></th>
+       <th>Author</th>
+       <th></th>
+    </tr>
+    {% for entry in wrote_list %}
+       <tr class="row{{entry.book.book_id}}">
+         {% if entry.id == -1 %}
+            <td style="border-top-style:none; border-bottom-style:none"></td>
+            <td style="border-top-style:none; border-bottom-style:none"></td>
+           <td>{{ entry.author.name }}</td>
+            <td style="border-top-style:none; border-bottom-style:none"></td>
+         {% else %}
+           <td style="border-top-style:solid; border-bottom-style:none"><a href="/books/book/{{entry.book.book_id}}">{{ entry.book.title }}</a></td>
+           <td style="border-top-style:solid; border-bottom-style:none">{{ entry.book.publisher.name }}</td>
+           <td>{{ entry.author.name }}</td>
+           <td style="border-top-style:solid; border-bottom-style:none"><button type="button" onclick=deleteBook({{entry.book.book_id}})>Delete</button> </td>
+         {% endif %}
+       </tr>
+    {% endfor %}
+</table>
